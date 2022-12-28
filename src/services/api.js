@@ -9,6 +9,19 @@ axios.defaults.params = {
 };
 export const getImages = async (query, page) => {
   const { data } = await axios.get(`/?q=${query}&page=${page}&key=${API_KEY}`);
-
-  return data;
+  const { hits, totalHits, total } = data;
+  const parsedHits = hits.map(({ id, webformatURL, tags, largeImageURL }) => ({
+    id,
+    webformatURL,
+    tags,
+    largeImageURL,
+  }));
+  return { hits: parsedHits, totalHits, total };
 };
+
+// const resHits = hits.map(({ id, webformatURL, tags, largeImageURL }) => ({
+//   id,
+//   webformatURL,
+//   tags,
+//   largeImageURL,
+// }));

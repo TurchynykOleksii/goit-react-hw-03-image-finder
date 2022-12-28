@@ -24,24 +24,18 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { searchQuery, page } = this.state;
+    console.log(this.state.searchData);
     if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
       try {
         this.setState({ isLoading: true });
         const { hits, totalHits } = await getImages(searchQuery, page);
+        console.log(hits);
         if (hits.length === 0) {
           this.setState({ isEmpty: true });
           return;
         }
-        const resHits = hits.map(
-          ({ id, webformatURL, tags, largeImageURL }) => ({
-            id,
-            webformatURL,
-            tags,
-            largeImageURL,
-          })
-        );
         this.setState(prevState => ({
-          searchData: [...prevState.searchData, ...resHits],
+          searchData: [...prevState.searchData, ...hits],
           showBtn: page < Math.ceil(totalHits / PER_PAGE),
         }));
       } catch (error) {
@@ -60,14 +54,16 @@ export class App extends Component {
   };
 
   onSubmit = searchQuery => {
-    this.setState({
-      searchQuery,
-      searchData: [],
-      error: null,
-      page: 1,
-      isEmpty: false,
-      showBtn: true,
-    });
+    if (searchQuery !== this.state.searchQuery) {
+      this.setState({
+        searchQuery,
+        searchData: [],
+        error: null,
+        page: 1,
+        isEmpty: false,
+        showBtn: true,
+      });
+    }
   };
 
   render() {
