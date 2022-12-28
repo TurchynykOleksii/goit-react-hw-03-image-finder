@@ -24,12 +24,12 @@ export class App extends Component {
 
   async componentDidUpdate(_, prevState) {
     const { searchQuery, page } = this.state;
-    console.log(this.state.searchData);
+
     if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
       try {
         this.setState({ isLoading: true });
         const { hits, totalHits } = await getImages(searchQuery, page);
-        console.log(hits);
+
         if (hits.length === 0) {
           this.setState({ isEmpty: true });
           return;
