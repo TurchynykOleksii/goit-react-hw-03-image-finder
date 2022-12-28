@@ -19,9 +19,4 @@ export const getImages = async (query, page) => {
   return { hits: parsedHits, totalHits, total };
 };
 
-// const resHits = hits.map(({ id, webformatURL, tags, largeImageURL }) => ({
-//   id,
-//   webformatURL,
-//   tags,
-//   largeImageURL,
-// }));
+
